@@ -166,12 +166,10 @@ We have now set our Java home environment variable and our path variable in such
 
 If it doesn't work, if you didn't get output similar to this, then go back through these steps or check the java installation documentation or usage for your shell to make sure that you've set up your environment correctly. Remember we can always echo environment variables to make sure they have the content we expect. For example, I can echo out the two variables I added:
 
-        echo $JAVA_HOME
+        % echo $JAVA_HOME
         /usr/local/Cellar/openjdk@11/11.0.15/libexec/openjdk.jdk/Contents/Home
 
-        echo $PATH
-
-        lanabegunova@Lanas-iMac ~ % echo $PATH
+        % echo $PATH
         /usr/local/opt/openjdk@11/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin:/usr/local/opt:/Users/lanabegunova/Library/Android/sdk/emulator:/Users/lanabegunova/Library/Android/sdk/platform-tools
 
 (And on Windows, make sure to use the % signs of course). So that's it for setting up Java and our Java environment.
