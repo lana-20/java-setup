@@ -77,6 +77,104 @@ Back to making sure we have Java set up. Remember, the commands we ran to see if
 
 What if we got something printed out, but it doesn't say "jdk"? Maybe it says "jre". In that case we'll need to download and install a new version of Java. This is because Appium needs to have something called the JDK, or the Java Development Kit, because this version of Java has more tools bundled with it than the JRE, or the Java Runtime Engine alone. Likewise, if we got nothing printed out at all, then we'll need to install Java.
 
+The standard way to install Java is to head to [java.com/download](java.com/download) and follow the instructions for your platform. However, this takes you through a convoluted series of pages and clicks. So instead, head directly to https://www.oracle.com/java/technologies/javase-downloads.html#javasejdk, which is a long link but will save you some time. You will need to download and run an installer for the JDK from that page. Ensure it's the JDK and not the JRE. When you run the downloaded installer, make a note of where you install Java, because we're going to need that information. So go ahead and install Java now.
+
+Now that we've installed Java, we need to set the special JAVA_HOME environment variable. And when I say set the environment variable, I mean going through the steps appropriate for my system that I demonstrated earlier. So on Windows, we do this again by opening up the environment variables area of the advanced system settings, creating a new variable called JAVA_HOME, and as the value setting the path where we installed Java. For example, <code>C:\Program Files\java\jdk1.8.0_222</code>.
+
+On macOS, it's a bit different. I know how to set environment variables in my <code>.bashrc</code> file now, but how do I know where Java was installed? To figure that out it's easiest to use a little helper program that comes with Java. So I can open up a terminal and run the command <code>/usr/libexec/java_home</code>. See what it prints out? For me it's:
+
+<img width="500" src="https://user-images.githubusercontent.com/70295997/226088586-159ce970-3cbe-4ef0-b0d2-d616f881e8f9.png">
+
+        /usr/local/Cellar/openjdk@11/11.0.15/libexec/openjdk.jdk/Contents/Home
+
+For you it might look different. 
+
+        /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home
+
+Regardless, that is the path we should use as the content of the JAVA_HOME variable. Notice that on macOS, it also looks a bit different than on Windows, because it includes a *Contents* and a *Home* directory. But we'll take this string, open up our <code>.bashrc</code> file, and create the appropriate <code>export</code> statement at the end:
+
+        export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home
+
+With any export command, there's something we need to be aware of. If there are any spaces in it, we need to put the value in quotes. In fact, it's safe to always put things in quotes so it's not a bad idea to do that. Let's update our variable to use quotes for safety:
+
+        export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home
+
+Now I have JAVA_HOME set on macOS as well.
+
+Next, we're going to work with yet another environment variable. This one is called PATH. The purpose of the PATH environment variable is to define a list of directories. These directories are the ones our shell will look in when we want to execute a command. Why do we need to do this? Just because I have a program somewhere on my computer doesn't mean I can just type its name to run it from a shell.
+
+Why would we *want* to run a program by its name rather than by a full path? Because some programs are so useful we end up using them in lots of places, and it would be tedious to have to type out the full path all the time.
+
+The Java JDK comes with a lot of little programs, some of which Appium uses in order to do its work. It makes life easier to have all these little programs on my PATH. So the first step is figuring out where these little programs live. First, let's check out what's inside my Java directory, by running a command that allows us to list the contents of a directory. On macOS, this is the <code>ls</code> command, which we can use in conjunction with our newly set environment variable:
+
+<img width="500" src="https://user-images.githubusercontent.com/70295997/226089135-5a2152c4-2e21-43de-8d68-3a7c703b23a8.png">
+
+        ls $JAVA_HOME
+        bin	conf	demo	include	jmods	legal	lib	man	release
+
+Now there's everything that's inside of JAVA_HOME.
+
+Or on Windows, we use the <code>dir</code> command to do the same thing:
+
+        dir "%JAVA_HOME%"
+
+In each case, we'll get out a directory listing. Notice a directory inside of my JAVA_HOME folder called <code>bin</code>. Bin is short for 'binaries' and it's where all these little programs are. So what I want to do is make sure this <code>bin</code> directory is somehow a part of my PATH environment variable.
+
+To update the PATH variable on macOS, we open up our <code>.bashrc</code> file that we've been editing, and check to see if any PATH variable is being exported in it. If so, we can just modify that line. If not, we can create a new line that starts with:
+
+        export PATH=$PATH
+
+The first thing I do is set PATH to itself. Why do I set PATH to itself? Well, PATH may have some values in it already set from some previous shell startup script, and I don't want to clobber those. So I first make sure that I'm keeping any existing values. Then, I add the directory I want to the PATH, by changing the line so that it looks like this:
+
+        export PATH=$PATH:$JAVA_HOME/bin
+
+Now I am using two environment variables to define PATH -- any previous PATH value, and my new JAVA_HOME variable. Since I'm using JAVA_HOME, I need to write this PATH export line after I define the JAVA_HOME variable. And all I'm doing is telling the PATH that I want whatever is inside the bin dir inside JAVA_HOME to be on the path. I can add as many directories as I want to the PATH, by separating them with colons. This is how I build up my list of directories in my path.
+
+On Windows, we head to the Environment variable editor as before. In either your user or system variables, you should see an existing variable called <code>Path</code>. Click to edit it. The editor for the Path variable is special - it shows us a list of paths, and we can add to this list by clicking "New". So click new and add <code>%JAVA_HOME%\bin</code>, then save it to the list. Notice that again we are using another environment variable to help define the Java binary directory we want to use in our path. This means that if you change the value of JAVA_HOME down the line, say because you downloaded a new version of Java, you don't also need to update your Path.
+
+Some older versions of Windows have the Path variable as one long string, in which case the value works just the same as it does on Mac, just separate each directory with semicolons instead of colons (and make sure to use the Windows format for variables and paths of course).
+
+We have now set our Java home environment variable and our path variable in such a way that we should have access to the Java binary programs from our shell without needing to know where they are anymore. So open up a new terminal or command prompt, and check if this is the case by trying to run the <code>java</code> command. If it works, you should get a bunch of help output from <code>java</code>, as shown below. And note that whether you are on Mac or Windows, you can run the same Java command.
+
+        lanabegunova@Lanas-iMac ~ % java
+        Usage: java [options] <mainclass> [args...]
+                   (to execute a class)
+           or  java [options] -jar <jarfile> [args...]
+                   (to execute a jar file)
+           or  java [options] -m <module>[/<mainclass>] [args...]
+               java [options] --module <module>[/<mainclass>] [args...]
+                   (to execute the main class in a module)
+           or  java [options] <smycefile> [args]
+                   (to execute a single smyce-file program)
+
+
+         Arguments following the main class, smyce file, -jar <jarfile>,
+         -m or --module <module>/<mainclass> are passed as the arguments to
+         main class.
+
+
+         where options include:
+
+
+            -cp <class search path of directories and zip/jar files>
+            -classpath <class search path of directories and zip/jar files>
+            --class-path <class search path of directories and zip/jar files>
+                          A : separated list of directories, JAR archives,
+                          and ZIP archives to search for class files.
+            -p <module path>
+            ...
+
+If it doesn't work, if you didn't get output similar to this, then go back through these steps or check the java installation documentation or usage for your shell to make sure that you've set up your environment correctly. Remember we can always echo environment variables to make sure they have the content we expect. For example, I can echo out the two variables I added:
+
+        echo $JAVA_HOME
+        /usr/local/Cellar/openjdk@11/11.0.15/libexec/openjdk.jdk/Contents/Home
+
+        echo $PATH
+
+        lanabegunova@Lanas-iMac ~ % echo $PATH
+        /usr/local/opt/openjdk@11/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin:/usr/local/opt:/Users/lanabegunova/Library/Android/sdk/emulator:/Users/lanabegunova/Library/Android/sdk/platform-tools
+
+(And on Windows, make sure to use the % signs of course). So that's it for setting up Java and our Java environment.
 
 
 
