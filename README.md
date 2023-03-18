@@ -166,6 +166,8 @@ We have now set our Java home environment variable and our path variable in such
 
 If it doesn't work, if you didn't get output similar to this, then go back through these steps or check the java installation documentation or usage for your shell to make sure that you've set up your environment correctly. Remember we can always echo environment variables to make sure they have the content we expect. For example, I can echo out the two variables I added:
 
+<img width="600" src="https://user-images.githubusercontent.com/70295997/226089617-7e72967f-44a3-4fcb-a867-7ec31bbf2ab9.png">
+
         % echo $JAVA_HOME
         /usr/local/Cellar/openjdk@11/11.0.15/libexec/openjdk.jdk/Contents/Home
 
