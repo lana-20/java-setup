@@ -1,7 +1,7 @@
 # Java Setup
 
 In the context of Appium and Selenium automation, we think about how we would get a working setup on our local machine. The first thing we want to make sure is present is something called Java. Java is a programming language and set of tools that are used by both Appium and Selenium.
-First of all, you can check to see if I already have Java on your machine. It often comes on computers by default nowadays, or you may have already installed it for another purpose. To check if you have it installed, open up either a terminal on macOS, or a command prompt on Windows, and run the appropriate 'echo' command here:
+First of all, you can check to see if you already have Java on your machine. It often comes on computers by default nowadays, or you may have already installed it for another purpose. To check if you have it installed, open up either a terminal on macOS, or a command prompt on Windows, and run the appropriate 'echo' command here:
 
 - Mac: <code>echo $JAVA_HOME</code>
 - Win: <code>echo %JAVA_HOME%</code>
@@ -176,6 +176,8 @@ If it doesn't work, if you didn't get output similar to this, then go back throu
 
 (And on Windows, make sure to use the % signs of course). So that's it for setting up Java and our Java environment.
 
+----
+_#TODO: Update all samples to Java 11 for consistency._
 
 
 
