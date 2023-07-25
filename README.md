@@ -27,9 +27,9 @@ For example, if I'm on a Mac, open up a terminal and type <code>echo $HOME</code
 Or, if you’re on Windows, open up a command prompt and type <code>echo %HOMEPATH%</code>. You should get back something that looks like <code>\Users\lanabegunova</code>, based on my computer's username.
 
 On either platform, what's going on is that the path to your home folder has been saved as an environment variable. Here are a couple more key points about environment variables:
-1. First, environment variables are only valid in the terminal session where they are defined. If you define an environment variable in one terminal window, and then open up another one, the variable will not exist in the other one. There is a way to make variables persist across sessions, which I'll discuss momentarily.
-2. Second, to check the value of the environment variable, I can use the <code>echo</code> command. On mac, I put a dollar sign in front of the variable name. On Windows, I put percent signs around the variable name.
-3. Third, to set environment variables from the terminal, we can use the <code>export</code> command on mac, or the <code>set</code> command on Windows. For example, I can run export <code>HELLO=world</code> on macOS, or <code>set HELLO=world</code> on Windows. In both cases, I don't use the dollar sign or percent signs when assigning values to the variables.
+1. Environment variables are only valid in the terminal session where they are defined. If you define an environment variable in one terminal window, and then open up another one, the variable will not exist in the other one. There is a way to make variables persist across sessions, which I'll discuss momentarily.
+2. To check the value of the environment variable, I can use the <code>echo</code> command. On mac, I put a dollar sign in front of the variable name. On Windows, I put percent signs around the variable name.
+3. To set environment variables from the terminal, we can use the <code>export</code> command on mac, or the <code>set</code> command on Windows. For example, I can run export <code>HELLO=world</code> on macOS, or <code>set HELLO=world</code> on Windows. In both cases, I don't use the dollar sign or percent signs when assigning values to the variables.
 
 Let's see this in action now. I'll run the export command first:
 
@@ -177,7 +177,8 @@ If it doesn't work, if you didn't get output similar to this, then go back throu
 (And on Windows, make sure to use the % signs of course). So that's it for setting up Java and our Java environment.
 
 ----
-_#TODO: Update all samples to Java 11 for consistency._
+_#TODO1: Update all samples to Java 11 for consistency._
+_#TODO2: Recalibrate refs to bashrc/zshrc for consistency._
 
 
 
