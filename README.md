@@ -1,3 +1,5 @@
+NOTE: This repo has been published as a [post](https://medium.com/@begunova/java-setup-macos-and-windows-5cbdf15b1670) on Medium.
+
 # Java Setup
 
 In the context of Appium and Selenium automation, we think about how we would get a working setup on our local machine. The first thing we want to make sure is present is something called Java. Java is a programming language and set of tools that are used by both Appium and Selenium.
